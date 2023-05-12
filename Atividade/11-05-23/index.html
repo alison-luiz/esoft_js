@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Atividade 11-05-2023</title>
+</head>
+<body style="background-color: rgb(0, 0, 0); color: white; font-size: large;">
+    <script type="text/javascript">
+
+        let max = 1;
+        let nome = [];
+        let idade = [];
+        let sexo = [];
+        let qtdErros = 0;
+
+        for ( let i = 0; i < max; i++ ) {
+
+            do {
+                nome[i] = prompt(`CADASTRO: ${i+1} - Digite seu nome (3 a 50 carac.):`);
+            } while (nome[i].length <= 3 || nome[i].length >= 50);
+            
+            do {
+                idade[i] = parseFloat(prompt(`CADASTRO: ${i+1} - Digite sua idade (18-75):`));
+                if (idade[i] < 18 || idade[i] > 75) {
+                    qtdErros++;
+                    alert("Digite uma idade entre 18 e 75 anos!");
+                }
+            } while (isNaN(idade[i]) || idade[i] < 18 || idade[i] > 75);
+            
+            do {
+                sexo[i] = prompt(`CADASTRO: ${i+1} - Digite seu sexo (M/F/O):`);
+                if (sexo[i] != "M" && sexo[i] != "F" && sexo[i] != "O") {
+                    qtdErros++;
+                    alert("Digite o sexo com os caracteres: M, F ou O");
+                }
+            } while (sexo[i] != "M" && sexo[i] != "F" && sexo[i] != "O");
+
+        }
+
+        dados();
+
+        function dados() {
+
+            let qtdM = 0;
+            let qtdF = 0;
+            let qtdO = 0;
+            let idadeM = 0;
+            let idadeF = 0;
+            let idadeO = 0;
+            let idadeFVelha = 0;
+            let indiceFVelha;
+            let nomeFVelha;
+            let pessoasMais50 = 0;
+            let idadeMaisNova = 100;
+            let indiceIdadeMaisNova;
+            let caracteresF = 0;
+            let mediaIdadeM = 0;
+
+            let menorNome = nome[0];
+            let maiorNome = nome[0];
+
+            for (let i = 1; i < max; i++) {
+                if (nome[i] < menorNome) {
+                    menorNome = nome[i];
+                }
+
+                if (nome[i].length > maiorNome.length) {
+                    maiorNome = nome[i];
+                }
+            }
+
+            for ( let i = 0; i < max; i++ ) {
+                
+                if ( sexo[i] == "M" ) {
+                    qtdM++;
+                    idadeM = idadeM + idade[i];
+                } else if ( sexo[i] == "F" ) {
+                    qtdF++;
+                    idadeF = idadeF + idade[i];
+                } else {
+                    qtdO++;
+                    idadeO = idadeO + idade[i];
+                }
+
+                if ( idade[i] > 50 ) {
+                    pessoasMais50++;
+                }
+
+            }
+
+            for ( let i = 0; i < max; i++ ) {
+                if ( sexo[i] == "F" ) {
+                    if ( idade[i] >= idadeFVelha ) {
+                        idadeFVelha = idade[i];
+                        indiceFVelha = i;
+                    }
+                    caracteresF = caracteresF + nome[i].length;
+                }
+
+                if ( idade[i] < idadeMaisNova ) {
+                    idadeMaisNova = idade[i];
+                    indiceIdadeMaisNova = i;
+                }
+
+            }
+
+            if ( idadeFVelha != 0 ) {
+                nomeFVelha = nome[indiceFVelha];
+                caracteresF / qtdF;
+            } else {
+                nomeFVelha = 'Não tem mulheres no cadastro!'
+                caracteresF = 'Não tem mulheres no cadastro!'
+            }
+
+            if ( qtdM != 0 ) {
+                mediaIdadeM = idadeM/qtdM;
+            } else {
+                mediaIdadeM = 'Não tem homens no cadastro!'
+            }
+
+            document.write(`Quantidade de pessoas do sexo Masculino: <b>${qtdM}</b><br>`);
+            document.write(`Percentual de pessoas do sexo Feminino e Outros: <b>${((qtdF + qtdO) * 100 / max).toFixed(2).toLocaleString()}%</b><br>`);
+            document.write(`Média de idade dos Homens: <b>${Math.round(mediaIdadeM)}</b><br>`);
+            document.write(`Nome da Mulher mais idosa: <b>${nomeFVelha}</b><br>`);
+            document.write(`Média geral de idade: <b>${((idadeM+idadeF+idadeO)/max).toFixed(0).toLocaleString()}</b><br>`);
+            document.write(`Percentual de pessoas com idade acima de 50 anos: <b>${(pessoasMais50 * 100 / max).toFixed(2).toLocaleString()}%</b><br>`);
+            document.write(`Quantidade de erros que o usuário cometeu ao digitar os dados: <b>${qtdErros}</b><br>`);
+            document.write(`Nome e idade da pessoa mais nova: <b>${nome[indiceIdadeMaisNova]} | ${idade[indiceIdadeMaisNova]}</b><br>`);
+            document.write(`Média de caracteres dos nomes (apenas mulheres): <b>${caracteresF}</b><br>`);
+            document.write(`Menor nome (em ordem alfabética): <b>${menorNome}</b><br>`);
+            document.write(`Maior nome (em quantidade de caracteres): <b>${maiorNome}</b><br>`);
+
+        }
+
+    </script>
+</body>
+</html>
