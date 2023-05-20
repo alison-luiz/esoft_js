@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Atividade 19-05-2023</title>
+  </head>
+  <body>
+    <script type="text/javascript">
+
+      function numPrimo(num) {
+        if (num < 2) return false;
+        for (let i = 2; i <= Math.sqrt(num); i++) {
+          if (num % i === 0) return false;
+        }
+        return true;
+      }
+
+      function numAleatorio(min, max) {
+        return Math.floor(Math.random() * (max - min + 1)) + min;
+      }
+
+      const matriz = [];
+      const numUsados = new Set();
+      
+      for (let i = 0; i < 10; i++) {
+        matriz[i] = [];
+        for (let j = 0; j < 10; j++) {
+          let numRand;
+          do {
+            numRand = numAleatorio(10, 1000);
+          } while (numUsados.has(numRand));
+          numUsados.add(numRand);
+          matriz[i][j] = numRand;
+        }
+      }
+
+      const numPares = [];
+
+      for (let i = 0; i < 10; i++) {
+        for (let j = 0; j < 10; j++) {
+          if (matriz[i][j] % 2 === 0) {
+            numPares.push(matriz[i][j]);
+          }
+        }
+      }
+      numPares.sort((a, b) => a - b);
+
+      const numPrimos = [];
+
+      for (let i = 0; i < 10; i++) {
+        for (let j = 0; j < 10; j++) {
+          if (numPrimo(matriz[i][j])) {
+            numPrimos.push(matriz[i][j]);
+          }
+        }
+      }
+      numPrimos.sort((a, b) => b - a);
+
+      const intercessao = numPares.filter((number) =>
+        numPrimos.includes(number)
+      );
+
+      function mostrarNumeros(array) {
+        for (let i = 0; i < array.length; i++) {
+          document.write(array[i] + " ");
+          if ((i + 1) % 10 === 0) {
+            document.write("<br>");
+          }
+        }
+        document.write("<br><br>");
+      }
+
+      document.write("Matriz 10x10:<br>");
+      mostrarNumeros(matriz);
+
+      document.write("Vetor de números pares em ordem crescente:<br>");
+      mostrarNumeros(numPares);
+
+      document.write("Vetor de números primos em ordem decrescente:<br>");
+      mostrarNumeros(numPrimos);
+
+      document.write("Vetor de interseção entre números pares e primos:<br>");
+      mostrarNumeros(intercessao);
+      
+    </script>
+  </body>
+</html>
