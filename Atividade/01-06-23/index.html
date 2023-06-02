@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Atividade CPF</title>
+</head>
+<body>
+    <script type="text/javascript">
+
+        let cpf;
+        cpf = prompt("Digite seu CPF:");
+
+        validateCpf(cpf);
+
+        function validateCpf(cpf) {
+
+            if (cpf.length !== 11) {
+                alert("CPF Inválido - Tamanho menor que 11");
+                return;
+            }
+
+            if (!validateDigits(cpf)) {
+                alert("CPF Inválido - Dígitos repetidos");
+                return;
+            }
+
+            if (!validateCalculation(cpf)) {
+                alert("CPF Inválido - Dígitos verificadores incorretos");
+                return;
+            }
+
+            alert("CPF Válido!");
+        }
+
+        function validateDigits(cpf) {
+
+            const digits = cpf.split("");
+
+            for (let i = 1; i < digits.length; i++) {
+                if (digits[i] !== digits[0]) {
+                    return true;
+                }
+            }
+
+            return false;
+        }
+
+        function validateCalculation(cpf) {
+
+            const digits = cpf.split("").map(Number);
+
+            let sum = 0;
+            for (let i = 0; i < 9; i++) {
+                sum += digits[i] * (10 - i);
+            }
+            let remainder = sum % 11;
+            let firstVerifier = remainder < 2 ? 0 : 11 - remainder;
+            if (firstVerifier !== digits[9]) {
+                return false;
+            }
+
+            sum = 0;
+            for (let i = 0; i < 10; i++) {
+                sum += digits[i] * (11 - i);
+            }
+            remainder = sum % 11;
+            let secondVerifier = remainder < 2 ? 0 : 11 - remainder;
+            if (secondVerifier !== digits[10]) {
+                return false;
+            }
+
+            return true;
+        }
+
+    </script>
+</body>
+</html>

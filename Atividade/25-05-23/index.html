@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Entrega3 - Avaliação prática 2o. bimestre de Algoritmos e Lógica de Programação II</title>
+</head>
+<body>
+    <script type="text/javascript">
+
+        let frase;
+        let v1 = [];
+        let v2 = [];
+        let v3 = [];
+        let m = [];
+        
+        do {
+            frase = prompt("Digite uma frase com mínimo 50 caracteres:");
+        } while (frase.length < 50);
+
+        v1 = frase.split(" ");
+
+        for ( let i = 0; i < v1.length; i++ ) {
+            v2.push(v1[i].toUpperCase());
+        }
+        
+        for ( let i = 0; i < v2.length; i++ ) {
+            let palavra = v2[i];
+            let palavraInvertida = palavra.split('').reverse().join('');
+            v3.push(palavraInvertida);
+        }
+
+        let contador = 0;
+
+        for ( let x = 0; x < 10; x++ ) {
+            m[x] = [];
+            for ( let y = 0; y < 5; y++ ) {
+                let caractere = frase[contador % frase.length];
+                m[x][y] = contador % 2 === 0 ? caractere.toUpperCase() : caractere.toLowerCase();
+                contador++;
+            }
+        }
+
+        document.write(`<b>Frase:</b> ${frase}<br>`);
+        document.write(`<b>V1:</b> `);
+
+        for ( let x = 0; x < v1.length; x++ ) {
+            document.write(`${v1[x]}, `);
+        }
+        
+        document.write(`<br>`);
+        document.write(`<b>V2:</b> `);
+
+        for ( let x = 0; x < v2.length; x++ ) {
+            document.write(`${v2[x]}, `);
+        }
+        
+        document.write(`<br>`);
+        document.write(`<b>V3:</b> `);
+
+        for ( let x = 0; x < v3.length; x++ ) {
+            document.write(`${v3[x]}, `);
+        }
+
+        document.write(`<br><br>`);
+        document.write(`<b>Matriz:</b><br>`);
+
+        for ( let x = 0; x < 10; x++ ) {
+            for ( let y = 0; y < 5; y++ ) {
+                document.write(`${m[x][y]}`);
+            }
+            document.write(`<br>`);
+        }
+
+        
+        let palavras = frase.split(' ');
+        let contadorPalindromos = 0;
+        let contarVogais = 0;
+        let contarConsoante = 0;
+        let contarEspacos = frase.length - palavras.join('').length;
+
+        function contarPalindromos(frase) {
+            frase = frase.toLowerCase().replace(/\s/g, '');
+        }
+
+        function frasePalindrimo(palavra) {
+            return palavra === palavra.split('').reverse().join('');
+        }
+        
+        for ( let palavra of palavras ) {
+          if (frasePalindrimo(palavra)) {
+            contadorPalindromos++;
+          }
+          
+          for ( let letra of palavra ) {
+            if (letra.match(/[aeiouáéíóú]/)) {
+              contarVogais++;
+            } else if (letra.match(/[bcdfghjklmnpqrstvwxyz]/)) {
+              contarConsoante++;
+            }
+          }
+        }
+        
+        document.write(`<br><b>Quantidade de palindromos:</b> ${contadorPalindromos}<br>`);
+        document.write(`<b>Quantidade de vogais:</b> ${contarVogais}<br>`);
+        document.write(`<b>Quantidade de consoantes:</b> ${contarConsoante}<br>`);
+        document.write(`<b>Quantidade de espaços:</b>    ${contarEspacos}<br>`);
+  
+
+
+    </script>
+</body>
+</html>
+
+<!-- 
+Construa um programa em javascript que solicite uma frase (mínimo 50 caracteres) e posteriormente:
+
+- separe cada palavra em um vetor (v1) de strings
+- monte um segundo vetor (v2) com o conteúdo do primeiro vetor (V1), convertendo todos os caracteres em maiúsculo
+- monte um terceiro vetor (v3) com o conteúdo do segundo vetor (V2), invertendo cada uma das palavras ("CASA" -> "ASAC")
+- monte uma matriz 10x5 contendo os primeiros 50 caracteres da frase, alternando entre maiúsculo e minúsculo
+
+  - Apresente:
+  - a frase
+  - o primeiro vetor
+  - o segundo vetor
+  - o terceiro vetor
+  - a matriz
+  - a quantidade de palavras palíndromos
+  - a quantidade de vogais
+  - a quantidade de consoantes
+  - a quantidade de espaços
+
+forms para entrega: https://forms.gle/MLGUsuidynSoMjHJ6 -->
