@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Reajuste Salarial</title>
+  <style>
+    table {
+      border-collapse: collapse;
+      width: 100%;
+    }
+
+    th, td {
+      text-align: left;
+      padding: 8px;
+    }
+
+    th {
+      background-color: #f2f2f2;
+    }
+
+    tr:nth-child(even) {
+      background-color: #f9f9f9;
+    }
+  </style>
+</head>
+<body>
+
+  <input type="file" id="fileInput" accept=".txt">
+  <button onclick="processarArquivo()">Processar Arquivo</button>
+
+  <table id="resultado"></table>
+
+  <script>
+    function processarArquivo() {
+      var fileInput = document.getElementById("fileInput");
+      var file = fileInput.files[0];
+
+      if (file) {
+        var reader = new FileReader();
+        reader.onload = function (e) {
+          var conteudo = e.target.result;
+          var linhas = conteudo.split("\n");
+
+          var tabela = document.getElementById("resultado");
+          tabela.innerHTML = "";
+
+          var cabecalho = tabela.createTHead();
+          var cabecalhoRow = cabecalho.insertRow();
+          cabecalhoRow.innerHTML = "<th>NOME</th><th>CARGO</th><th>NOVO SALÁRIO</th><th>DATA ADMISSÃO</th><th>NÚMERO DE DEPENDENTES</th>";
+
+          var corpo = tabela.createTBody();
+
+          for (var i = 0; i < linhas.length; i++) {
+            var linha = linhas[i].trim();
+            if (linha !== "") {
+              var info = linha.split(";");
+              var novoSalario = calcularNovoSalario(info);
+
+              var row = corpo.insertRow();
+              row.innerHTML = "<td>" + info[0] + "</td><td>" + info[1] + "</td><td>" + novoSalario.toFixed(2) + "</td><td>" + info[3] + "</td><td>" + info[4] + "</td>";
+            }
+          }
+        };
+
+        reader.readAsText(file);
+      }
+    }
+
+    function calcularNovoSalario(info) {
+      var nome = info[0];
+      var cargo = info[1];
+      var salario = parseFloat(info[2]);
+      var dataAdmissao = new Date(info[3]);
+      var numDependentes = parseInt(info[4]);
+
+      if (cargo === "PROFESSOR") {
+        var novoSalario = salario * 1.09;
+        return novoSalario;
+      }
+
+      var hoje = new Date();
+      var diffAnos = hoje.getFullYear() - dataAdmissao.getFullYear();
+      var reajuste = 0;
+
+      if (diffAnos > 5) {
+        reajuste += 0.075;
+      }
+
+      if (numDependentes > 0) {
+        reajuste += 0.012 * numDependentes;
+      }
+
+      var novoSalario = salario * (1 + reajuste);
+      return novoSalario;
+    }
+  </script>
+
+</body>
+</html>
